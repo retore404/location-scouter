@@ -24,15 +24,11 @@ function init() {
     //マップクリック時にその地点を中心点に据える
     mymap.on('click', function(e) {      
       let clicked_position= e.latlng;
-      setPotision(clicked_position['lat'], clicked_position['lng']);
+      setPosition(clicked_position['lat'], clicked_position['lng']);
       calc();       
     });
     // zoom the map to the polygon
     //mymap.fitBounds(polygon.getBounds());
-}
-
-function dum(){
-  return
 }
 
 function changeDirection(){
@@ -81,13 +77,7 @@ function getAzimuth(base_angle, viewing_angle){
     return [view_minus, view_plus]
 }
 
-function getCenter(){
-  //現在の地図の中心地の緯度および経度を持つ連想配列を取得
-  let center = mymap.getCenter();
-  setPotision(center['lat'], center['lng']);
-}
-
-function setPotision(lat, lon){
+function setPosition(lat, lon){
   //現在の中心地を示すピンを削除
   centerpin.remove();
   //取得した緯度・経度をそれぞれinputのvalueに代入
