@@ -50,7 +50,7 @@ function changeDirection(){
   } else if (direction=='315') {
     document.getElementById('direc_output').value='315°(北西)';
   } else {
-    document.getElementById('direc_output').value=direction;
+    document.getElementById('direc_output').value=direction + '°';
   }
 
   calc();
