@@ -7,7 +7,8 @@
 撮影位置，レンズの焦点距離(35mm換算)及びカメラを向ける方角を指定することで，写真に写る水平範囲を地図上で図示することができる．
 
 ## 公開先
-https://scouter.retore.xyz/
+
+- https://retore404.github.io/location-scouter/
 
 ## デモ
 ### 地図上クリック（タップ）で立ち位置を変更
