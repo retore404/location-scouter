@@ -63,7 +63,19 @@
         <table>
             <tr><th>立ち位置の設定</th><td>地図をクリックして立ち位置を設定</td></tr>
             <tr><th>焦点距離（フルサイズ換算）</th><td><input oninput='inputtedFocalLength();' type="text" id="focal_length" value="35"></td></tr>
-            <tr><th>カメラを向ける方角</th><td style="text-align:center;"><input type="range" value="0" id="direction" oninput="changeDirection();" min=0 max=359> <output id="direc_output">0°(北)</output></td></tr>          
+            <tr>
+                <th>カメラを向ける方角</th>
+                <td style="text-align:center;">
+                    <input type="range" value="0" id="direction" oninput="changeDirection();" min=0 max=359> <output id="direc_output">0°(北)</output>
+                </td>
+            </tr>       
+            <tr>
+                <th>画角を表示する距離</th>
+                <td>
+                    <input type="range" value="10" id="length" oninput="calc();" min=0 max=100> 
+                </td>
+            </tr>   
+        
         </table>
         <div style="margin-top:1em;">
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="ロケーションスカウター" data-url="https://scouter.retore.xyz/" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

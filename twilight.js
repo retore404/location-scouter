@@ -101,6 +101,7 @@ function calc(){
     //入力値を取得
     var input_focal_length = parseFloat(document.getElementById('focal_length').value);    
     var input_direction = parseFloat(document.getElementById('direction').value);
+    let input_length = parseFloat(document.getElementById("length").value);
     //現在指定位置の緯度・経度
     let pin_position = centerpin.getLatLng();
     var input_lat = parseFloat(pin_position['lat']);
@@ -115,8 +116,8 @@ function calc(){
     var input_lon_rad = getRad(input_lon);
     azimuth0 = getRad(azimuth[0]);
     azimuth1 = getRad(azimuth[1]);
-    var position0 = vincenty(input_lat_rad, input_lon_rad, azimuth0, 10*1000);
-    var position1 = vincenty(input_lat_rad, input_lon_rad, azimuth1, 10*1000);
+    var position0 = vincenty(input_lat_rad, input_lon_rad, azimuth0, input_length*1000);
+    var position1 = vincenty(input_lat_rad, input_lon_rad, azimuth1, input_length*1000);
     latlngs = [[input_lat, input_lon], [position0[0], position0[1]], [position1[0], position1[1]]];
 
     
