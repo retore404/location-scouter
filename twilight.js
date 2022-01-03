@@ -1,19 +1,17 @@
 ﻿//leaflet OSM map
-var polygon;
-var mymap;
-var latlngs;
-var centerpin;
+let polygon;
+let mymap;
+let latlngs;
+let centerpin;
 function init() {
     
     // create a map in the "map_id" div,
     // set the view to a given place and zoom
-    //var mymap = L.map('mapid')
     mymap = L.map('mapid');
-    mymap.setView([35.44998607555596,139.64607417583468], 15);
-    
+    mymap.setView([35.44998607555596,139.64607417583468], 15);    
     
     // add an OpenStreetMap tile layer
-    var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png ', {
+    const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png ', {
 	  attribution : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 	  maxZoom: 18,
 	  });
@@ -27,8 +25,6 @@ function init() {
       setPosition(clicked_position['lat'], clicked_position['lng']);
       calc();       
     });
-    // zoom the map to the polygon
-    //mymap.fitBounds(polygon.getBounds());
 }
 
 function changeDirection(){
@@ -52,20 +48,18 @@ function changeDirection(){
   } else {
     document.getElementById('direc_output').value=direction + '°';
   }
-
   calc();
-
 }
 
 function getViewingAngle(focal_length){
-    var radian =  2 * Math.atan(36/(2*focal_length));
+    let radian =  2 * Math.atan(36/(2*focal_length));
     return radian * (180/Math.PI)
 }
 
 function getAzimuth(base_angle, viewing_angle){
     //base_angle→向いている方向 viewing_angle→視野角
-    view_minus = base_angle - viewing_angle/2;
-    view_plus = base_angle + viewing_angle/2;
+    let view_minus = base_angle - viewing_angle/2;
+    let view_plus = base_angle + viewing_angle/2;
     if(view_minus<0){
       view_minus = view_minus +360;
     }
@@ -80,13 +74,9 @@ function getAzimuth(base_angle, viewing_angle){
 function setPosition(lat, lon){
   //現在の中心地を示すピンを削除
   centerpin.remove();
-  //取得した緯度・経度をそれぞれinputのvalueに代入
-  //document.getElementById('lat').value = lat;
-  //document.getElementById('lon').value = lon;
 
   //新しい立ち位置にピンを刺す
   centerpin = L.marker([lat, lon]).addTo(mymap);
-
 }
 
 function inputtedFocalLength(){
@@ -99,35 +89,33 @@ function inputtedFocalLength(){
 
 function calc(){
     //入力値を取得
-    var input_focal_length = parseFloat(document.getElementById('focal_length').value);    
-    var input_direction = parseFloat(document.getElementById('direction').value);
+    let input_focal_length = parseFloat(document.getElementById('focal_length').value);    
+    let input_direction = parseFloat(document.getElementById('direction').value);
     let input_length = parseFloat(document.getElementById("length").value);
     //現在指定位置の緯度・経度
     let pin_position = centerpin.getLatLng();
-    var input_lat = parseFloat(pin_position['lat']);
-    var input_lon = parseFloat(pin_position['lng']);
+    let input_lat = parseFloat(pin_position['lat']);
+    let input_lon = parseFloat(pin_position['lng']);
     //水平画角を取得
-    var view_angle = getViewingAngle(input_focal_length);
+    let view_angle = getViewingAngle(input_focal_length);
     //画角の左端・右端の方位角を算出
-    var azimuth = getAzimuth(input_direction, view_angle);
+    let azimuth = getAzimuth(input_direction, view_angle);
     //基準地点からazimuth[0], azimuth[1]方向に10km地点の緯度・経度
     //ラジアンに変換
-    var input_lat_rad = getRad(input_lat);
-    var input_lon_rad = getRad(input_lon);
-    azimuth0 = getRad(azimuth[0]);
-    azimuth1 = getRad(azimuth[1]);
-    var position0 = vincenty(input_lat_rad, input_lon_rad, azimuth0, input_length*1000);
-    var position1 = vincenty(input_lat_rad, input_lon_rad, azimuth1, input_length*1000);
+    let input_lat_rad = getRad(input_lat);
+    let input_lon_rad = getRad(input_lon);
+    let azimuth0 = getRad(azimuth[0]);
+    let azimuth1 = getRad(azimuth[1]);
+    let  position0 = vincenty(input_lat_rad, input_lon_rad, azimuth0, input_length*1000);
+    let position1 = vincenty(input_lat_rad, input_lon_rad, azimuth1, input_length*1000);
     latlngs = [[input_lat, input_lon], [position0[0], position0[1]], [position1[0], position1[1]]];
 
-    
     //ポリゴン・マーカー初期化
     polygon.remove();
     centerpin.remove();
     
     polygon = L.polygon(latlngs, {color: 'red'}).addTo(mymap);
     centerpin = L.marker([input_lat, input_lon]).addTo(mymap);
-    //mymap.setView([input_lat, input_lon]);  
 }
 
 //Vincenty
